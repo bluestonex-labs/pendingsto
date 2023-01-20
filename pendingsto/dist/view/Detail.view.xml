@@ -1,0 +1,92 @@
+<mvc:View xmlns="sap.m" xmlns:form="sap.ui.layout.form" xmlns:semantic="sap.f.semantic" xmlns:mvc="sap.ui.core.mvc" controllerName="wos.zint.pendingsto.controller.Detail">
+
+    <semantic:SemanticPage id="detailPage" busy="{detailView>/busy}" busyIndicatorDelay="{detailView>/delay}" showFooter="true" headerPinnable="false" toggleHeaderOnTitleClick="false">
+        <semantic:titleHeading>
+            <Title text="{Ebeln}" level="H2"/>
+        </semantic:titleHeading>
+        <semantic:headerContent>
+            <form:SimpleForm editable="true" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false" layout="ResponsiveGridLayout">
+                <form:content>
+                    <Label text="{i18n>detailDestinationStoreLabel}" labelFor="storeNum" textAlign="Left"/>
+                    <!--<Text id="storeNum" text="{Werks}" textAlign="Left"/>-->
+                    <Text id="storeNum" text="{path:'detailView>/Werks'}" textAlign="Left"/>
+                    <Label text="{i18n>parcelRef}" labelFor="parcelRef" textAlign="Left"/>
+                    <Input id="parcelRef" required="true" value="{detailView>/ParcelRef}" placeholder="{i18n>parcelRefPrompt}" type="Text" width="300px" change="onChangeParcelRef"/>
+                </form:content>
+			</form:SimpleForm>
+        </semantic:headerContent>
+        <semantic:content>
+            <IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding" expanded="false" expandable="false" select="handleIconTabBarSelect">
+						<items>
+							<IconTabFilter id="iconTabBarFilter1" icon="sap-icon://hint" tooltip="{i18n>detailIconTabBarInfo}" visible="false">
+								<!--<content/>-->
+							</IconTabFilter>
+							<IconTabFilter id="iconTabBarFilter2" icon="sap-icon://attachment" tooltip="{i18n>detailIconTabBarAttachments}" visible="true"/>
+						</items>
+					</IconTabBar>
+
+            <Table id="lineItemsList" width="auto" items="{path:'detailView>/STOItemSet/results'}" updateFinished="onListUpdateFinished" noDataText="{i18n>detailLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" class="sapUiResponsiveMargin" mode="SingleSelectMaster" fixedLayout="false">
+						<headerToolbar>
+							<Toolbar id="lineItemsToolbar">
+								<Title id="lineItemsHeader" text="{path: 'detailView>/lineItemListTitle'}"/>
+							</Toolbar>
+						</headerToolbar>
+						<columns>
+							<Column>
+								<Text text="{i18n>detailLineItemTableIDColumn}"/>
+							</Column>
+							<Column>
+								<Text text="{i18n>detailLineItemTablePartexColumn}"/>
+							</Column>
+							<Column>
+								<Text xmlns="sap.m" text="{i18n>detailLineItemTableUnitNumberColumn}" textAlign="End"/>
+							</Column>
+							<!-- Put in extra ref num related columns -->
+							<Column width="10%">
+								<Text text="{i18n>columnHeaderSelectRefNums}"/>
+							</Column>
+							<Column width="20%">
+								<Text text="{i18n>columnHeaderRefs}"/>
+							</Column>
+							<Column width="20%">
+								<Text text="{i18n>columnHeaderSerials}"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<ObjectIdentifier title="{path: 'detailView>Maktx'}" text="{path: 'detailView>Matnr'}"/>
+									<Text id="partexNRef" text="{path: 'detailView>Bismt'}" width="100%"/>
+
+									<ObjectNumber number="{path: 'detailView>Menge'}" textAlign="End" id="tobeGIQty" emphasized="false" state="None"/>
+									<!-- Put in extra ref num related columns -->
+									<!-- Parts provide parameters to formatter function. Note the / before Bsart denoteing STO header level rather than item level, which table is bound at -->
+									<Button width="50px" id="RefDocSelBut" visible="{               parts: [                       {path: 'detailView>CertFlg'},                        {path: 'detailView>MerchCat'},                        {path: 'detailView>/Bsart'}                       ],                formatter:'.formatter.artRefVisible'          }" press="onRefButtonPress" tooltip="{i18n>SelectRefDoc}" icon="sap-icon://activity-2" type="Transparent"/>
+									
+									<Text id="PendingDocRefs" text="{path: 'detailView>Refnrs'}" width="100%" wrapping="true" visible="{               parts: [                       {path: 'detailView>CertFlg'},                       {path: 'detailView>MerchCat'},                       {path: 'detailView>/Bsart'}                      ],                formatter:'.formatter.artRefVisible'          }" tooltip="{i18n>ReferenceToBeTransfered}"/>
+									
+									<Text id="PendingIdentData" text="{path: 'detailView>IdentData'}" width="100%" wrapping="true" visible="{               parts: [                       {path: 'detailView>CertFlg'},                       {path: 'detailView>MerchCat'},                       {path: 'detailView>/Bsart'}                      ],                formatter:'.formatter.artRefVisible'          }" tooltip="{i18n>Certs/Serials}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+        </semantic:content>
+
+        <semantic:closeAction>
+            <semantic:CloseAction id="closeColumn" press=".onCloseDetailPress"/>
+        </semantic:closeAction>
+
+        <semantic:fullScreenAction>
+            <semantic:FullScreenAction id="enterFullScreen" visible="{= !${device>/system/phone} &amp;&amp; !${appView>/actionButtonsInfo/midColumn/fullScreen}}" press=".toggleFullScreen"/>
+        </semantic:fullScreenAction>
+        <semantic:exitFullScreenAction>
+            <semantic:ExitFullScreenAction id="exitFullScreen" visible="{= !${device>/system/phone} &amp;&amp; ${appView>/actionButtonsInfo/midColumn/fullScreen}}" press=".toggleFullScreen"/>
+        </semantic:exitFullScreenAction>
+
+        <semantic:footerCustomActions>
+            <Button text="{i18n>btnPostText}" width="200px" id="btnPost" type="Emphasized" press="onSavePress" enabled="false"/>
+        </semantic:footerCustomActions>
+
+    </semantic:SemanticPage>
+
+</mvc:View>

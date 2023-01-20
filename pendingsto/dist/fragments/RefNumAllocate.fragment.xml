@@ -1,0 +1,10 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	
+	 	<SelectDialog  title="{i18n>SelectOrCreateRef}" multiSelect='true'
+			class="sapUiPopupWithPadding"  items="{/results}" showClearButton="true" confirm="_RefClose" cancel="_RefCancel" search="_RefSearch" growing="false">
+
+	 	 	<StandardListItem title="{RefnrExtInfo}" description="{Matnr}" info="{Werks}" selected="{selected}" type="Active" press="onRefNumItemPress"/>
+
+	</SelectDialog>
+
+</core:FragmentDefinition>

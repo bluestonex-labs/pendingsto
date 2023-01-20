@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZINT_PEX_GOODSISSUE_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="STOHeader" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Ebeln"/>
+                </Key>
+                <Property Name="Ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Purchasing Doc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lifnr" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Vendor" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reswk" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Supplying Site" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Site" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ihrez" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Your Reference" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Unsez" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Our Reference" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Bsart" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Order Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="GenFilter" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Generic Composite Filter" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="STOItemSet" Relationship="ZINT_PEX_GOODSISSUE_SRV.getItems" FromRole="FromRole_getItems" ToRole="ToRole_getItems"/>
+            </EntityType>
+            <EntityType Name="STOItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Ebeln"/>
+                    <PropertyRef Name="Ebelp"/>
+                </Key>
+                <Property Name="Bismt" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:label="Old artl number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Purchasing Doc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ebelp" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="Item" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:label="Article" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Menge" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="PO Quantity" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Meins" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Order Unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Maktx" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MerchCat" Type="Edm.String" Nullable="false" MaxLength="9" sap:unicode="false" sap:label="Merch Cat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="CertFlg" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Certificate Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="RefNumsReqCnt" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="Count of article reference numbers needed" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="pdf" m:HasStream="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Ebeln"/>
+                </Key>
+                <Property Name="Ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Order" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MimeType" Type="Edm.String" Nullable="false" MaxLength="128" sap:unicode="false" sap:label="MimeType" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="GetHomeStore" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Werks"/>
+                </Key>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Site" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SalesOrg" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales Org" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Curr" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="Currency" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="currency-code"/>
+                <Property Name="ErrorMessage" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="Message text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="GoodsIss" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Ebeln"/>
+                </Key>
+                <Property Name="Ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Purchasing Doc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DelivNumb" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Article Doc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParcelRef" Type="Edm.String" Nullable="false" MaxLength="16" sap:unicode="false" sap:label="ParcelRef" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="GoodsIssued" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Checkbox" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="GoodsIssItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Ebeln"/>
+                    <PropertyRef Name="Ebelp"/>
+                </Key>
+                <Property Name="Ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Purchasing Doc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ebelp" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="Item" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:label="Article" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Refnrs" Type="Edm.String" Nullable="false" MaxLength="255" sap:unicode="false" sap:label="Reference Number List" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IdentData" Type="Edm.String" Nullable="false" MaxLength="132" sap:unicode="false" sap:label="Identification data serials certs" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="STOUpdated_Flg" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Parcel Ref and Article Refs updated ok on STO" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DelivUpdated_Flg" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Article Refs updated ok on Deliv" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ArtRefsMoved_flg" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="ZART_REFERNCES table updated flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="GoodsIssHeader" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Ebeln"/>
+                </Key>
+                <Property Name="Ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Purchasing Doc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DelivNumb" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Article Doc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParcelRef" Type="Edm.String" Nullable="false" MaxLength="16" sap:unicode="false" sap:label="ParcelRef" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="GoodsIssued" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Checkbox" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="STOUpd" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Checkbox" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DelUpd" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Checkbox" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="RefNumUpd" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Checkbox" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="GoodsIssItemSet" Relationship="ZINT_PEX_GOODSISSUE_SRV.getGIssItemSet" FromRole="FromRole_getGIssItemSet" ToRole="ToRole_getGIssItemSet"/>
+            </EntityType>
+            <EntityType Name="RefNum" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Werks"/>
+                    <PropertyRef Name="Matnr"/>
+                    <PropertyRef Name="Refnr"/>
+                </Key>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Site" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:label="Article" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Refnr" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Reference number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Fldcount" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Number of Fields" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reftype" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Reference Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Status of the Ref" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Data" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="Reference data" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vbeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Sales Document" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vkorg" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales org." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="RefnrExtInfo" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Reference num-extra" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Selected" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Single-Character Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="RefNumPostHead" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ArticleCounter"/>
+                </Key>
+                <Property Name="ArticleCounter" Type="Edm.Int32" Nullable="false" sap:unicode="false" sap:label="Integer" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Site" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:label="Article" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ExternalFlag" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Call flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DataFlag" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Ref Data flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SkipRefTran" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Skip Ref autotrans article" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SkipRefStoreTran" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Skip RefN autotrans article store" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="RefNum" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Reference Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Message" Type="Edm.String" MaxLength="200" sap:unicode="false" sap:label="Message" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PrintLabel" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Print label flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="CallerLink" Type="Edm.Int32" Nullable="false" sap:unicode="false" sap:label="Caller Identifier Num Link" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="RefNumPostItemSet" Relationship="ZINT_PEX_GOODSISSUE_SRV.getRefNumPostItems" FromRole="FromRole_getRefNumPostItems" ToRole="ToRole_getRefNumPostItems"/>
+            </EntityType>
+            <EntityType Name="RefNumPostItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ArticleCounter"/>
+                    <PropertyRef Name="ItemCounter"/>
+                </Key>
+                <Property Name="ArticleCounter" Type="Edm.Int32" Nullable="false" sap:unicode="false" sap:label="Integer" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ItemCounter" Type="Edm.Int32" Nullable="false" sap:unicode="false" sap:label="Integer" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Data" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="Reference data" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <ComplexType Name="ZIntGoodsIssue">
+                <Property Name="EDelivNumb" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Delivery" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </ComplexType>
+            <Association Name="getRefNumPostItems" sap:content-version="1">
+                <End Type="ZINT_PEX_GOODSISSUE_SRV.RefNumPostHead" Multiplicity="1" Role="FromRole_getRefNumPostItems"/>
+                <End Type="ZINT_PEX_GOODSISSUE_SRV.RefNumPostItem" Multiplicity="*" Role="ToRole_getRefNumPostItems"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_getRefNumPostItems">
+                        <PropertyRef Name="ArticleCounter"/>
+                    </Principal>
+                    <Dependent Role="ToRole_getRefNumPostItems">
+                        <PropertyRef Name="ArticleCounter"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="getItems" sap:content-version="1">
+                <End Type="ZINT_PEX_GOODSISSUE_SRV.STOHeader" Multiplicity="1" Role="FromRole_getItems"/>
+                <End Type="ZINT_PEX_GOODSISSUE_SRV.STOItem" Multiplicity="*" Role="ToRole_getItems"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_getItems">
+                        <PropertyRef Name="Ebeln"/>
+                    </Principal>
+                    <Dependent Role="ToRole_getItems">
+                        <PropertyRef Name="Ebeln"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="getGIssItemSet" sap:content-version="1">
+                <End Type="ZINT_PEX_GOODSISSUE_SRV.GoodsIssHeader" Multiplicity="1" Role="FromRole_getGIssItemSet"/>
+                <End Type="ZINT_PEX_GOODSISSUE_SRV.GoodsIssItem" Multiplicity="*" Role="ToRole_getGIssItemSet"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_getGIssItemSet">
+                        <PropertyRef Name="Ebeln"/>
+                    </Principal>
+                    <Dependent Role="ToRole_getGIssItemSet">
+                        <PropertyRef Name="Ebeln"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZINT_PEX_GOODSISSUE_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="STOHeaderSet" EntityType="ZINT_PEX_GOODSISSUE_SRV.STOHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="STOItemSet" EntityType="ZINT_PEX_GOODSISSUE_SRV.STOItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="pdfSet" EntityType="ZINT_PEX_GOODSISSUE_SRV.pdf" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="GetHomeStoreSet" EntityType="ZINT_PEX_GOODSISSUE_SRV.GetHomeStore" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="GoodsIssSet" EntityType="ZINT_PEX_GOODSISSUE_SRV.GoodsIss" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="GoodsIssItemSet" EntityType="ZINT_PEX_GOODSISSUE_SRV.GoodsIssItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="GoodsIssHeaderSet" EntityType="ZINT_PEX_GOODSISSUE_SRV.GoodsIssHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="RefNumSet" EntityType="ZINT_PEX_GOODSISSUE_SRV.RefNum" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="RefNumPostHeadSet" EntityType="ZINT_PEX_GOODSISSUE_SRV.RefNumPostHead" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="RefNumPostItemSet" EntityType="ZINT_PEX_GOODSISSUE_SRV.RefNumPostItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <AssociationSet Name="getGIssItemSetSet" Association="ZINT_PEX_GOODSISSUE_SRV.getGIssItemSet" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="GoodsIssHeaderSet" Role="FromRole_getGIssItemSet"/>
+                    <End EntitySet="GoodsIssItemSet" Role="ToRole_getGIssItemSet"/>
+                </AssociationSet>
+                <AssociationSet Name="getItemsSet" Association="ZINT_PEX_GOODSISSUE_SRV.getItems" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="STOHeaderSet" Role="FromRole_getItems"/>
+                    <End EntitySet="STOItemSet" Role="ToRole_getItems"/>
+                </AssociationSet>
+                <AssociationSet Name="getRefNumPostItemsSet" Association="ZINT_PEX_GOODSISSUE_SRV.getRefNumPostItems" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="RefNumPostHeadSet" Role="FromRole_getRefNumPostItems"/>
+                    <End EntitySet="RefNumPostItemSet" Role="ToRole_getRefNumPostItems"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link rel="self" href="https://waylon.goldsmiths.co.uk:8443/sap/opu/odata/sap/ZINT_PEX_GOODSISSUE_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://waylon.goldsmiths.co.uk:8443/sap/opu/odata/sap/ZINT_PEX_GOODSISSUE_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

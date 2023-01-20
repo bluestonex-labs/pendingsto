@@ -1,0 +1,31 @@
+<mvc:View xmlns="sap.m" xmlns:semantic="sap.f.semantic" xmlns:mvc="sap.ui.core.mvc" controllerName="wos.zint.pendingsto.controller.List">
+
+    <semantic:SemanticPage id="listPage" preserveHeaderStateOnScroll="true" toggleHeaderOnTitleClick="false">
+        <semantic:titleHeading>
+            <Title id="listPageTitle" text="{listView>/title}" level="H2"/>
+        </semantic:titleHeading>
+        <semantic:content>
+            <!-- For client side filtering add this to the items attribute: parameters: {operationMode: 'Client'}}" -->
+            <List id="list" width="auto" class="sapFDynamicPageAlignContent" items="{                     path: '/STOHeaderSet',                     sorter: {                         path: 'Ebeln',                         descending: false                     },                     groupHeaderFactory: '.createGroupHeader'                 }" busyIndicatorDelay="{listView>/delay}" noDataText="{listView>/noDataText}" mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}" growing="true" growingScrollToLoad="true" updateFinished=".onUpdateFinished" selectionChange=".onSelectionChange">
+
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <SearchField id="searchField" showRefreshButton="true" tooltip="{i18n>listSearchTooltip}" liveChange=".onSearch" width="100%" placeholder="{i18n>listSearchTooltip}">
+                            <layoutData>
+                                <OverflowToolbarLayoutData minWidth="150px" maxWidth="100%" shrinkable="true" priority="NeverOverflow"/>
+                            </layoutData>
+                        </SearchField>
+
+                    </OverflowToolbar>
+                </headerToolbar>
+                <items>
+                    <ObjectListItem type="{= ${device>/system/phone} ? 'Active' : 'Inactive'}" press="onSelectionChange" title="{Ebeln}"> 
+						<attributes>
+							<ObjectAttribute text="{i18n>TransactionOrOrderNum} {Ihrez}"/>
+						</attributes>
+					</ObjectListItem>
+                </items>
+            </List>
+        </semantic:content>
+    </semantic:SemanticPage>
+</mvc:View>

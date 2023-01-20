@@ -1,0 +1,1 @@
+sap.ui.define([],function(){"use strict";return{currencyValue:function(e){if(!e){return""}return parseFloat(e).toFixed(2)},artRefVisible:function(e,r,t){if((e==="X"||r==="1730"||r==="1777")&&t==="ZCTO"){return true}else{return false}}}});

@@ -1,0 +1,92 @@
+_schema-version: "3.2"
+ID: pendingsto
+version: 0.0.1
+modules:
+- name: pendingsto-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: pendingsto-destination-service
+    parameters:
+      content-target: true
+  - name: pendingsto_html_repo_host
+    parameters:
+      service-key:
+        name: pendingsto_html_repo_host-key
+  - name: uaa_pendingsto
+    parameters:
+      service-key:
+        name: uaa_pendingsto-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: pendingsto_pendingsto_html_repo_host
+          ServiceInstanceName: pendingsto-html5-app-host-service
+          ServiceKeyName: pendingsto_html_repo_host-key
+          sap.cloud.service: pendingsto
+        - Authentication: OAuth2UserTokenExchange
+          Name: pendingsto_uaa_pendingsto
+          ServiceInstanceName: pendingsto-xsuaa-service
+          ServiceKeyName: uaa_pendingsto-key
+          sap.cloud.service: pendingsto
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: pendingsto-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: pendingsto_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - woszintpendingsto.zip
+      name: woszintpendingsto
+      target-path: resources/
+- name: woszintpendingsto
+  type: html5
+  path: pendingsto
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: pendingsto-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: pendingsto-destination-service
+    service-plan: lite
+- name: pendingsto_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: pendingsto-html5-app-host-service
+    service-plan: app-host
+- name: uaa_pendingsto
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: pendingsto-xsuaa-service
+    service-plan: application
+parameters:
+  deploy_mode: html5-repo
